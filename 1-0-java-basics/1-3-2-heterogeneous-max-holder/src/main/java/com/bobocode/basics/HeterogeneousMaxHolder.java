@@ -1,6 +1,9 @@
 package com.bobocode.basics;
 
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * {@link HeterogeneousMaxHolder} is a multi-type container that holds maximum values per each type. It's kind of a
@@ -32,6 +35,26 @@ public class HeterogeneousMaxHolder {
      */
     // todo: implement a method according to javadoc
 
+
+    //heterogeneous container is use to store value of multiple type
+
+
+    private final Map<Class<?>, Object> storage = new HashMap<>();
+
+    @SuppressWarnings("unchecked")
+    public <T extends Comparable<? super T>> T put(Class<T> key, T value) {
+        Objects.requireNonNull(key);
+
+        T current = key.cast(storage.get(key));
+
+        if (current == null || value.compareTo(current) > 0) {
+            storage.put(key, value);
+            return current;
+        }
+
+        return value;
+    }
+
     /**
      * An overloaded method put implements the same logic using a custom comparator. A given comparator is wrapped with
      * a null-safe comparator, considering null smaller than any non-null object.
@@ -53,5 +76,27 @@ public class HeterogeneousMaxHolder {
      * @param <T> value type parameter
      * @return current max value or null
      */
+    @SuppressWarnings("unchecked")
+    public <T> T put(Class<T> key, T value, Comparator<? super T> comparator) {
+        Objects.requireNonNull(key);
+        Objects.requireNonNull(value);
+        Objects.requireNonNull(comparator);
+
+        Comparator<? super T> nullSafeComparator =
+                Comparator.nullsFirst(comparator);
+
+        T current = key.cast(storage.get(key));
+
+        if (current == null || nullSafeComparator.compare(value, current) > 0) {
+            storage.put(key, value);
+            return current;
+        }
+
+        return value;
+    }
+
+    public <T> T getMax(Class<T> key) {
+        return key.cast(storage.get(key));
+    }
     // todo: implement a method according to javadoc
 }

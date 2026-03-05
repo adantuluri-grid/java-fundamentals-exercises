@@ -7,7 +7,7 @@
 * implement a generic method put that stores max values by its type ✅
 * overload a generic method put with a custom `Comparator` ✅
 * implement a generic method getMax that retrieves a max value by its type ✅
-* wrap a comparator instance to make it null-safe ✅
+  * wrap a comparator instance to make it null-safe ✅
 
 ### Exercise overview 🇺🇦
 [![Watch the video](https://img.youtube.com/vi/jQnGDgH-Zfg/0.jpg)](https://www.youtube.com/watch?v=jQnGDgH-Zfg)
